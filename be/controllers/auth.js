@@ -1,17 +1,21 @@
 const USER = require('../models/userModal.js');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 
 const signIn = async (req, res) => {
     try {
         const { email, password } = req.body;
-        if (!email || !password) return res.status(400).json({message : "validation failed"});
+        if (!email || !password) return res.status(400).json({ message: "validation failed" });
         const exist = await USER.findOne({ email });
-        if (!exist) return res.status(400).json({message : "You don't have an account. Please sign up !"});
+        if (!exist) return res.status(400).json({ message: "You don't have an account. Please sign up !" });
         bcrypt.compare(password, exist.password, (err, result) => {
-            if (err) return res.status(400).json({message : "bcrypt compare failed"});
-            if (!result) return res.status(400).json({message : "incorrect password"});
-            res.status(200).json({message : "success", data : exist});
+            if (err) return res.status(400).json({ message: "bcrypt compare failed" });
+            if (!result) return res.status(400).json({ message: "incorrect password" });
+            jwt.sign({ id: exist._id }, process.env.JWT_SECRET, (err, token) => {
+                if (err) return res.status(400).json({ message : "Something went wrong !"});
+                res.status(200).json({message : "success", data : exist, token});
+            })
         })
     } catch (error) {
         res.status(500).json({ message: "Something went wrong !" });

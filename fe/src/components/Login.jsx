@@ -17,6 +17,7 @@ const Login = ({ setAuth }) => {
             if (email && password) {
                 AxiosInstance.post("/signIn", {email, password}).then(({data}) => {
                     localStorage.setItem("userDetails", JSON.stringify(data?.data));
+                    localStorage.setItem("token", data?.token)
                     dispatch(setUserDetails(data?.data));
                     navigate("/home");
                 }).catch(({response : {data}}) => {

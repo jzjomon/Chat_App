@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Home, Auth } from './pages/pages.js'
 import { Authorization, SignOutOrHome,  } from './constants/Authorization.jsx'
+import OpenChat from './components/OpenChat.jsx'
 
 function App() {
 

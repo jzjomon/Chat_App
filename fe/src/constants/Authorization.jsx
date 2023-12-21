@@ -1,11 +1,11 @@
 import { Navigate, Outlet } from "react-router-dom";
 
 export const Authorization = () => {
-    const user = localStorage.getItem("userDetails");
-    return (user ? <Outlet /> : <Navigate to="/" />)
+    const token = localStorage.getItem('token');
+    return (token ? <Outlet /> : <Navigate to="/" />)
 } 
 
 export const SignOutOrHome = () => {
-    const user = localStorage.getItem("userDetails");
-    return (user ? <Navigate to="/home" /> : <Outlet />)
+    const token = localStorage.getItem("token");
+    return (token ? <Navigate to="/home" /> : <Outlet />)
 } 
